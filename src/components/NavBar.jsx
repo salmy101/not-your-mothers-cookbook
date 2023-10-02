@@ -2,7 +2,7 @@ import { Box, Flex, Spacer,Heading, Button, Text, HStack } from "@chakra-ui/reac
 
 export default function NavBar() {
   return (
-    <Flex as="nav" p="10px" alignItems="center" >
+    <Flex as="nav" mb="40px" p="10px" alignItems="center" >
       <Heading as="h1">Mind Palace Tasks</Heading>
       <Spacer />
       <HStack spacing="10px">
