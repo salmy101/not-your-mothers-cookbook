@@ -18,7 +18,7 @@ export default function NavBar() {
 
   return (
     <Flex as="nav" mb="40px" p="10px" alignItems="center" >
-      <Heading as="h1">Mind Palace Tasks</Heading>
+      <Heading as="h1">Not Your Mothers' Cookbook</Heading>
       <Spacer />
       <HStack spacing="10px">
       <Avatar name="Salma" bg="purple.400" src="/img/peach.png">
