@@ -27,7 +27,21 @@ the app initially loads since its in the root of the app. But when we pass vlaue
 
   useEffect(() => {
     fetchRecipes(allRecipesURL);
-  }, []);
+  }, []); //on initial render we change the value of meals in line22, and every change causes a re-render. thats why we need a dependency array
+
+/*
+the infinite loop:
+1.initial render (we invoke useEffect)
+2. inside the useEffect cb, we fetch data and change the value of recipes 
+3. it triggers a re-render
+4. we repeat steps 2 and 3
+** without the empty array in the dependcy, it will re-render so many times
+that the app would crash. check the network tab without an array in the useEffect*/
+
+
+
+
+
 
   return (
     <AppContext.Provider value={{ recipes }}>

@@ -22,7 +22,7 @@ import { useGlobalContext } from "../context"
 export default function Dashboard() {
 
   const {recipes} = useGlobalContext()
-  console.log("Context",recipes)
+  console.log("Context", recipes)
 
 
   return (
@@ -58,3 +58,9 @@ export default function Dashboard() {
     </SimpleGrid>
   )
 }
+
+
+//make sure to start the json server with this command
+//json-server -w ./data/db.json
+//allows us to watch a json file in our project
+//we need register this loader in a component in App.js as well
