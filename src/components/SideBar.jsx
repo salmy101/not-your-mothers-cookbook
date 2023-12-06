@@ -6,21 +6,21 @@ export default function SideBar() {
   return (
     <List color="white" fontSize="1.2em" spacing={4}>
       <ListItem>
-        <NavLink to="/">
+        <NavLink to="/recipes">
           <ListIcon as={CalendarIcon} />
-          Dashboard
+          Search
         </NavLink>
       </ListItem>
       <ListItem>
-        <NavLink to="/create">
+        <NavLink to="/favourites">
           <ListIcon as={EditIcon}/>
-          New Task
+          Favourites
         </NavLink>
       </ListItem>
       <ListItem>
         <NavLink to="/profile">
           <ListIcon as={AtSignIcon}/>
-          Profile
+          My Recipes
         </NavLink>
       </ListItem>
     </List>

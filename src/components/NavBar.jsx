@@ -1,5 +1,6 @@
 import { UnlockIcon } from "@chakra-ui/icons";
 import { Box, Flex, Spacer,Heading, Button, Text, HStack, useToast, Avatar, AvatarBadge } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   const toast = useToast()
@@ -18,7 +19,9 @@ export default function NavBar() {
 
   return (
     <Flex as="nav" mb="40px" p="10px" alignItems="center" >
+      <NavLink to="/">
       <Heading as="h1">Not Your Mothers' Cookbook</Heading>
+      </NavLink>
       <Spacer />
       <HStack spacing="10px">
       <Avatar name="Salma" bg="purple.400" src="/img/peach.png">
