@@ -21,8 +21,19 @@ import { useGlobalContext } from "../context"
 
 export default function Dashboard() {
 
-  const {recipes} = useGlobalContext()
-  console.log("Context", recipes)
+  const {loading, recipes} = useGlobalContext() //grabbing the props from context
+
+  if(loading){
+    return <Box>
+      <Heading>Loading...</Heading>
+    </Box>
+  }
+  
+  if(recipes.length < 1){
+    return <Box>
+      <Heading>No Recipes matched the search, please try again.</Heading>
+    </Box>
+  }
 
 
   return (
