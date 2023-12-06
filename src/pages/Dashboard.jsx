@@ -18,6 +18,7 @@ import {
 import { useLoaderData } from "react-router-dom"
 import { useEffect } from "react"
 import { useGlobalContext } from "../context"
+import SearchBar from "../components/SearchBar"
 
 export default function Dashboard() {
 
@@ -37,6 +38,8 @@ export default function Dashboard() {
 
 
   return (
+    <>
+      <SearchBar />
     <SimpleGrid spacing={10} minChildWidth={300}>
       {recipes && recipes.map(recipe => (
         <Card key={recipe.id} borderTop="8px" borderColor="purple.400" bg="white">
@@ -67,6 +70,7 @@ export default function Dashboard() {
         </Card>
       ))}
     </SimpleGrid>
+      </>
   )
 }
 
