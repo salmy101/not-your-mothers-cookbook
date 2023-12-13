@@ -4,13 +4,15 @@ import axios from "axios";
 const AppContext = React.createContext();
 
 const allRecipesURL =
-  "https://api.spoonacular.com/recipes/complexSearch?apiKey=2d70d1b799c04eecb53d02c1068dfe36&number=25";
+`https://api.spoonacular.com/recipes/complexSearch?apiKey=2d70d1b799c04eecb53d02c1068dfe36&number=25&query=`;
 const randomRecipeURL =
   "https://api.spoonacular.com/recipes/random?apiKey=2d70d1b799c04eecb53d02c1068dfe36&/random?number=1";
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [recipes, setRecipes] = useState([])
+  const [searchTerm, setSetSearchTerm] = useState('')
+
 
   //the children prop = a special prop that represents thats in the compononet, aka  APP
 
@@ -34,9 +36,10 @@ the app initially loads since its in the root of the app. But when we pass vlaue
     setLoading(false)
   };
 
+
   useEffect(() => {
-    fetchRecipes(allRecipesURL); //call the function here, always fetch the data INSIDE the useEffect
-  }, []); //on initial render we change the value of meals in line22, and every change causes a re-render. thats why we need a dependency array
+    fetchRecipes(`${allRecipesURL}${searchTerm}`); //call the function here, always fetch the data INSIDE the useEffect
+  }, [searchTerm]); //on initial render we change the value of meals in line22, and every change causes a re-render. thats why we need a dependency array
 
 /*
 the infinite loop:
@@ -45,12 +48,13 @@ the infinite loop:
 3. it triggers a re-render
 4. we repeat steps 2 and 3
 ** without the empty array in the dependcy, it will re-render so many times
-that the app would crash. check the network tab without an array in the useEffect*/
+that the app would crash. check the network tab without an array in the useEffect
+*/
 
 
   return (
     <AppContext.Provider 
-      value={{ loading, recipes }} //pass down to the entire application
+      value={{ loading, recipes, setSetSearchTerm }} //pass down to the entire application
     >
       {children}
     </AppContext.Provider>
