@@ -14,6 +14,7 @@ function SearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text) {
+      setSetSearchTerm(text);
       // setText("")
     }
   };
