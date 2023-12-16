@@ -37,9 +37,9 @@ function SearchBar() {
           <Button type="submit" backgroundColor="pink">
             Search
           </Button>
-          {/* <Button backgroundColor="purple.100" onClick={handleRandom}>
+          <Button backgroundColor="purple.100" onClick={handleRandom}>
             Surprise Me ;)
-          </Button> */}
+          </Button>
         </Box>
       </Form>
     </Box>

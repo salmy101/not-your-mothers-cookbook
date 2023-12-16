@@ -36,10 +36,30 @@ the app initially loads since its in the root of the app. But when we pass vlaue
     setLoading(false)
   };
 
-  const fetchRandom = () => {
-    fetchRecipes(randomRecipeURL)
-  }
 
+  const fetchRandomRecipes = async (url) => {
+    setLoading(true)
+    try {
+      const {data} = await axios.get(url);
+      console.log("Fetching random data here", data.recipes[0].title)
+      if(data.results){
+        setRecipes(data.results)
+      }
+      else{
+        setRecipes([]) //if there is no data returned from the api
+      }
+    } catch (error) {
+      console.log("fetching error here", error);
+    }
+    setLoading(false)
+  };
+
+
+  const fetchRandom = () => {
+    fetchRandomRecipes(randomRecipeURL)
+    console.log("RANDOM:", recipes)
+  }
+  
   useEffect(() => {
     fetchRecipes(allRecipesURL)
   }, []) 
