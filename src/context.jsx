@@ -11,7 +11,7 @@ const randomRecipeURL =
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [recipes, setRecipes] = useState([])
-  const [searchTerm, setSetSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
 
   //the children prop = a special prop that represents thats in the compononet, aka  APP
@@ -28,7 +28,7 @@ the app initially loads since its in the root of the app. But when we pass vlaue
         setRecipes(data.results)
       }
       else{
-        setRecipes([]) //if there is no data returned form the api
+        setRecipes([]) //if there is no data returned from the api
       }
     } catch (error) {
       console.log("fetching error here", error);
@@ -36,8 +36,16 @@ the app initially loads since its in the root of the app. But when we pass vlaue
     setLoading(false)
   };
 
+  const fetchRandom = () => {
+    fetchRecipes(randomRecipeURL)
+  }
 
   useEffect(() => {
+    fetchRecipes(allRecipesURL)
+  }, []) 
+
+  useEffect(() => {
+    if(!searchTerm) return
     fetchRecipes(`${allRecipesURL}${searchTerm}`); //call the function here, always fetch the data INSIDE the useEffect
   }, [searchTerm]); //on initial render we change the value of meals in line22, and every change causes a re-render. thats why we need a dependency array
 
@@ -54,7 +62,7 @@ that the app would crash. check the network tab without an array in the useEffec
 
   return (
     <AppContext.Provider 
-      value={{ loading, recipes, setSetSearchTerm }} //pass down to the entire application
+      value={{ loading, recipes, setSearchTerm, fetchRandom }} //pass down to the entire application
     >
       {children}
     </AppContext.Provider>

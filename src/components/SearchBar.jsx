@@ -5,7 +5,7 @@ import { useGlobalContext } from "../context";
 
 function SearchBar() {
   const [text, setText] = useState("");
-  const { setSetSearchTerm } = useGlobalContext();
+  const { setSearchTerm, fetchRandom } = useGlobalContext();
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -14,9 +14,14 @@ function SearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text) {
-      setSetSearchTerm(text);
-      // setText("")
+      setSearchTerm(text);
     }
+  };
+
+  const handleRandom = () => {
+    setSearchTerm("");
+    setText("");
+    fetchRandom();
   };
 
   return (
@@ -28,12 +33,14 @@ function SearchBar() {
           value={text}
           onChange={handleChange}
         ></Input>
-          <Box gap={3}>
-            <Button type="submit" backgroundColor="pink">
-              Search
-            </Button>
-            <Button backgroundColor="purple.100">Surprise Me ;)</Button>
-          </Box>
+        <Box gap={3}>
+          <Button type="submit" backgroundColor="pink">
+            Search
+          </Button>
+          {/* <Button backgroundColor="purple.100" onClick={handleRandom}>
+            Surprise Me ;)
+          </Button> */}
+        </Box>
       </Form>
     </Box>
   );
