@@ -66,6 +66,17 @@ export default function Dashboard() {
       </Box>
     );
   }
+  // const summaryWithoutTags = selectedRecipeInfo.summary.replace(/<[^>]+>/g, ''); 
+  /* this line of code throw an error: 
+   Cannot read properties of undefined (reading 'replace'). ChatGPT suggested I check if selectedRecipeInfo.summary 
+   exists before attempting to replace the HTML tags
+   I can do a condition like this  selectedRecipeInfo.summary ? selectedRecipeInfo.summary.replace(/<[^>]+>/g, '') : "" 
+  If it does exist, it replaces HTML tags as before.
+   */ 
+
+  const summaryWithoutTags = selectedRecipeInfo.summary ? selectedRecipeInfo.summary.replace(/<[^>]+>/g, '') : '';
+
+
 
   return (
     <>
@@ -87,6 +98,7 @@ export default function Dashboard() {
                     <Heading as="h3" size="sm">
                       {recipe.title}
                     </Heading>
+                    {/* <p>{selectedRecipeInfo.diets}</p> */} 
                   </Box>
                 </Flex>
               </CardHeader>
@@ -121,7 +133,9 @@ export default function Dashboard() {
                     <ModalContent>
                       <ModalHeader>{selectedRecipeInfo.title}</ModalHeader>
                       <ModalBody pb={6}>
-                        <Text>{selectedRecipeInfo.summary}</Text>
+                        <b>About the Recipe:</b>
+                        <br/>
+                        <Text>{summaryWithoutTags}</Text>
                       </ModalBody>
 
                       <ModalFooter>
