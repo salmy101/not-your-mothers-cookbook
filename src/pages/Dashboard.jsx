@@ -1,11 +1,13 @@
-import { EditIcon, ViewIcon } from "@chakra-ui/icons"
-import { 
-  Box, 
+import { EditIcon, ViewIcon } from "@chakra-ui/icons";
+import { Link } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import {
+  Box,
   SimpleGrid,
   Text,
   Flex,
   Heading,
-  Card, 
+  Card,
   CardHeader,
   CardBody,
   CardFooter,
@@ -13,67 +15,133 @@ import {
   Divider,
   Button,
   Avatar,
-  Image
-} from "@chakra-ui/react"
-import { useLoaderData } from "react-router-dom"
-import { useEffect } from "react"
-import { useGlobalContext } from "../context"
-import SearchBar from "../components/SearchBar"
+  Image,
+} from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useGlobalContext } from "../context";
+import SearchBar from "../components/SearchBar";
 
 export default function Dashboard() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { loading, recipes } = useGlobalContext(); //grabbing the props from context
+  const [selectedRecipeInfo, setSelectedRecipeInfo] = useState('');
 
-  const {loading, recipes} = useGlobalContext() //grabbing the props from context
+  const fetchRecipeInformation = async (recipeID) => {
+    try {
+      const { data } = await axios.get(
+        `https://api.spoonacular.com/recipes/${recipeID}/information?apiKey=2d70d1b799c04eecb53d02c1068dfe36&includeNutrition=false`
+      );
+      console.log("Fetching data here", data);
+      setSelectedRecipeInfo(data); // Store fetched recipe information
+      onOpen(); // Open the modal after fetching the information
+    } catch (error) {
+      console.log("Error fetching recipe information:", error);
+    }
+  };
 
-  if(loading){
-    return <Box>
-      <Heading>Loading...</Heading>
-    </Box>
+  if (loading) {
+    return (
+      <Box>
+        <Heading>Loading...</Heading>
+      </Box>
+    );
   }
-  
-  if(recipes.length < 1){
-    return <Box>
-      <Heading>No Recipes matched the search, please try again.</Heading>
-    </Box>
-  }
 
+  if (recipes.length < 1) {
+    return (
+      <Box>
+        <Heading>No Recipes matched the search, please try again.</Heading>
+      </Box>
+    );
+  }
 
   return (
     <>
       <SearchBar />
-    <SimpleGrid spacing={10} minChildWidth={300}>
-      {recipes && recipes.map(recipe => (
-        <Card key={recipe.id} borderTop="8px" borderColor="purple.400" bg="white">
+      <recipeModal />
+      <SimpleGrid spacing={10} minChildWidth={300}>
+        {recipes &&
+          recipes.map((recipe) => (
+            <Card
+              key={recipe.id}
+              borderTop="8px"
+              borderColor="purple.400"
+              bg="white"
+            >
+              <CardHeader color="gray.700">
+                <Flex gap={2}>
+                  <Box w="50px" h="50px"></Box>
+                  <Box>
+                    <Heading as="h3" size="sm">
+                      {recipe.title}
+                    </Heading>
+                  </Box>
+                </Flex>
+              </CardHeader>
 
-          <CardHeader color="gray.700">
-            <Flex gap={2}>
-              <Box w="50px" h="50px">
-              </Box>
-              <Box>
-                <Heading as="h3" size="sm">{recipe.title}</Heading>
-              </Box>
-            </Flex>
-          </CardHeader>
+              <CardBody color="gray.500">
+                <Image src={recipe.image} />
+              </CardBody>
 
-          <CardBody color="gray.500">
-                <Image  src={recipe.image}/>
-          </CardBody>
+              <Divider borderColor="gray.200" />
 
-          <Divider borderColor="gray.200" />
+              <CardFooter>
+                <HStack>
+                  {/* <Button variant="ghost" leftIcon={<ViewIcon />}> */}
+                  {/* {showModal &&  <recipeModal/>} */}
+                  {/* </Button> */}
+                  <Button
+                    variant="ghost"
+                    onClick={() => fetchRecipeInformation(recipe.id)}
+                    leftIcon={<EditIcon />}
+                  >
+                    Comment
+                  </Button>
 
-          <CardFooter>
-            <HStack>
-              <Button variant="ghost" leftIcon={<ViewIcon />}>Watch</Button>
-              <Button variant="ghost" leftIcon={<EditIcon />}>Comment</Button>
-            </HStack>
-          </CardFooter>
+                  {/* Modal to display additional recipe information */}
+                  <Modal
+                    closeOnOverlayClick={false}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    size="xl"
+                  >
+                    {/* <ModalOverlay /> */}
+                    <ModalContent>
+                      <ModalHeader>{selectedRecipeInfo.title}</ModalHeader>
+                      <ModalBody pb={6}>
+                        <Text>{selectedRecipeInfo.summary}</Text>
+                      </ModalBody>
 
-        </Card>
-      ))}
-    </SimpleGrid>
-      </>
-  )
+                      <ModalFooter>
+                        <Button colorScheme="blue" mr={3}>
+                          <Link href={selectedRecipeInfo.sourceUrl} isExternal>
+                            Check out full Recipe! <ExternalLinkIcon mx="2px" />
+                          </Link>
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+                </HStack>
+              </CardFooter>
+            </Card>
+          ))}
+      </SimpleGrid>
+    </>
+  );
 }
-
 
 //make sure to start the json server with this command
 //json-server -w ./data/db.json

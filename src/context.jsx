@@ -7,11 +7,14 @@ const allRecipesURL =
 `https://api.spoonacular.com/recipes/complexSearch?apiKey=2d70d1b799c04eecb53d02c1068dfe36&number=25&query=`;
 const randomRecipeURL =
   "https://api.spoonacular.com/recipes/random?apiKey=2d70d1b799c04eecb53d02c1068dfe36&/random?number=1";
-
+  
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [recipes, setRecipes] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [showModal, setShowModal] = useState(true)
+  // const [instructions, setInstructions] = useState('')
+  // const [recipeID, setRecipeID] = useState('')
 
 
   //the children prop = a special prop that represents thats in the compononet, aka  APP
@@ -54,12 +57,11 @@ the app initially loads since its in the root of the app. But when we pass vlaue
     setLoading(false)
   };
 
+  // const fetchRandom = () => {
+  //   fetchRandomRecipes(randomRecipeURL)
+  //   console.log("RANDOM:", recipes)
+  // }
 
-  const fetchRandom = () => {
-    fetchRandomRecipes(randomRecipeURL)
-    console.log("RANDOM:", recipes)
-  }
-  
   useEffect(() => {
     fetchRecipes(allRecipesURL)
   }, []) 
@@ -82,7 +84,7 @@ that the app would crash. check the network tab without an array in the useEffec
 
   return (
     <AppContext.Provider 
-      value={{ loading, recipes, setSearchTerm, fetchRandom }} //pass down to the entire application
+      value={{ loading, recipes, fetchRecipes, setSearchTerm }} //pass down to the entire application
     >
       {children}
     </AppContext.Provider>
