@@ -1,4 +1,4 @@
-import { EditIcon, ViewIcon } from "@chakra-ui/icons";
+import { EditIcon, ViewIcon, StarIcon } from "@chakra-ui/icons";
 import { Link } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
@@ -35,7 +35,7 @@ import SearchBar from "../components/SearchBar";
 
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { loading, recipes } = useGlobalContext(); //grabbing the props from context
+  const { loading, recipes, myFav, setMyFav } = useGlobalContext(); //grabbing the props from context
   const [selectedRecipeInfo, setSelectedRecipeInfo] = useState('');
 
   const fetchRecipeInformation = async (recipeID) => {
@@ -49,6 +49,11 @@ export default function Dashboard() {
     } catch (error) {
       console.log("Error fetching recipe information:", error);
     }
+  };
+
+  const addToFavourites = (recipe) => {
+    setMyFav((prevFav) => [...prevFav, recipe]);
+    console.log("myFavs", myFav)
   };
 
   if (loading) {
@@ -116,10 +121,17 @@ export default function Dashboard() {
                   {/* </Button> */}
                   <Button
                     variant="ghost"
-                    onClick={() => fetchRecipeInformation(recipe.id)}
+                    onClick={() => fetchRecipeInformation(recipe)}
                     leftIcon={<EditIcon />}
                   >
                     Comment
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => addToFavourites(recipe.id)}
+                    leftIcon={<StarIcon />}
+                  >
+                    Favourite
                   </Button>
 
                   {/* Modal to display additional recipe information */}

@@ -1,9 +1,12 @@
 import { TabList, Tabs, Tab, TabPanels, TabPanel, List, ListItem, ListIcon } from "@chakra-ui/react";
 import { ChatIcon, CheckCircleIcon, EmailIcon, StarIcon, WarningIcon } from '@chakra-ui/icons'
+import { useGlobalContext } from "../context";
 
 
 
 export default function Profile() {
+  const {  myFav  } = useGlobalContext(); //grabbing the props from context
+
   return (
     <Tabs mt="40px" colorScheme="purple" p="20px" variant="enclosed">
       <TabList>
@@ -14,6 +17,18 @@ export default function Profile() {
         <TabPanel>
           <List spacing={4}>
             <ListItem>
+            {myFav.map((recipe) => (
+              
+          // <li key={recipe.id}>
+            <h2>{recipe.title}</h2>
+            // <img src={recipe.image} alt={recipe.title} />
+            /* Render other recipe details as needed */
+          // </li>
+        ),
+        console.log("favs list on profile",recipe.title)
+
+        )
+        }
               <ListIcon as={EmailIcon}/>
               Email: salmy101@github.com
             </ListItem>

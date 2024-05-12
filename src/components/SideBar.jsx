@@ -11,12 +11,12 @@ export default function SideBar() {
           Search
         </NavLink>
       </ListItem>
-      <ListItem>
+      {/* <ListItem>
         <NavLink to="/favourites">
           <ListIcon as={EditIcon}/>
           Favourites
         </NavLink>
-      </ListItem>
+      </ListItem> */}
       <ListItem>
         <NavLink to="/profile">
           <ListIcon as={AtSignIcon}/>

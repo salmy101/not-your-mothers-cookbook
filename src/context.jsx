@@ -15,6 +15,7 @@ const AppProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(true)
   // const [instructions, setInstructions] = useState('')
   // const [recipeID, setRecipeID] = useState('')
+  const [myFav, setMyFav] = useState([])
 
 
   //the children prop = a special prop that represents thats in the compononet, aka  APP
@@ -84,7 +85,7 @@ that the app would crash. check the network tab without an array in the useEffec
 
   return (
     <AppContext.Provider 
-      value={{ loading, recipes, fetchRecipes, setSearchTerm }} //pass down to the entire application
+      value={{ loading, recipes, fetchRecipes, setSearchTerm, myFav, setMyFav }} //pass down to the entire application
     >
       {children}
     </AppContext.Provider>
